@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>It’s a Love Story 💗</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Playfair+Display:wght@600&family=Pacifico&family=Inter:wght@400;500&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --bg:#fff1f6;
+  --card:#ffe3ee;
+  --accent:#e75480;
+  --soft:#ffb6cf;
+  --text:#6b2d3a;
+  --shadow:rgba(231,84,128,.3);
+}
+
+body{
+  min-height:100vh;
+  background:var(--bg);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:Inter,sans-serif;
+  overflow:hidden;
+}
+
+/* PARTICLES */
+.particle{
+  position:fixed;
+  top:-10%;
+  pointer-events:none;
+  animation:fall linear infinite;
+  opacity:.9;
+  z-index:1;
+}
+@keyframes fall{to{transform:translateY(110vh)}}
+
+/* CARD */
+.card{
+  background:var(--card);
+  padding:64px 48px;
+  border-radius:32px;
+  width:900px;
+  max-width:92%;
+  text-align:center;
+  box-shadow:0 30px 70px var(--shadow);
+  position:relative;
+  z-index:5;
+}
+
+/* LANDING */
+.image-box{
+  width:160px;height:160px;
+  margin:0 auto 32px;
+  background:#fff;
+  border-radius:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.image-box img{width:120px}
+
+h1{
+  font-family:'Playfair Display';
+  font-size:40px;
+  color:var(--text);
+  margin-bottom:36px;
+}
+
+/* BUTTONS */
+.buttons{
+  display:flex;
+  justify-content:center;
+  gap:32px;
+  height:80px;
+}
+
+button{
+  width:200px;height:56px;
+  border-radius:999px;
+  border:none;
+  font-size:18px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+#yes{
+  background:linear-gradient(135deg,#e75480,#ff9bbd);
+  color:white;
+}
+#no{
+  background:var(--soft);
+  color:white;
+  transition:transform .25s ease;
+}
+
+/* ENVELOPE */
+.envelope-wrap{width:360px;margin:0 auto;}
+.envelope{position:relative;}
+.env-rect{
+  width:100%;height:160px;
+  background:#ffe3ee;
+  border:4px solid var(--accent);
+}
+.env-triangle{
+  position:absolute;
+  top:0;left:0;
+  border-left:180px solid transparent;
+  border-right:180px solid transparent;
+  border-top:90px solid #ffb6cf;
+}
+
+/* POLAROID */
+.polaroid{
+  background:white;
+  padding:12px 12px 22px;
+  border-radius:12px;
+  width:280px;
+  margin:0 auto;
+  box-shadow:0 15px 40px rgba(0,0,0,.25);
+}
+.polaroid img{
+  width:100%;height:210px;
+  object-fit:cover;
+}
+.caption{
+  margin-top:14px;
+  font-family:'Pacifico';
+  font-size:18px;
+  color:var(--text);
+}
+
+/* FINAL */
+.final h1{
+  font-family:'Playfair Display';
+  font-size:46px;
+  color:var(--accent);
+}
+.final-gif-box{
+  width:200px;height:200px;
+  margin:0 auto 28px;
+  background:#fff;
+  border-radius:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.final-gif-box img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+}
+
+/* NOTIFICATION */
+.notify{
+  position:fixed;
+  top:20px;right:20px;
+  background:white;
+  padding:14px 18px;
+  border-left:6px solid var(--accent);
+  box-shadow:0 12px 30px rgba(0,0,0,.2);
+  cursor:pointer;
+  display:none;
+  z-index:20;
+}
+
+.pixel-btn{
+  margin-top:28px;
+  font-family:'Press Start 2P';
+  padding:14px 20px;
+  background:#ff9bbd;
+  border:3px solid var(--accent);
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" loop><source src="music/TS.mp3"></audio>
+<audio id="notifSound"><source src="music/notification.mp3"></audio>
+<audio id="ayushMusic" loop><source src="music/ayush.mp3"></audio>
+
+<div id="app" class="card">
+  <div class="image-box">
+    <img src="gifs/hasbicat.gif">
+  </div>
+  <h1>Will you be my Valentine? 💗</h1>
+
+  <div class="buttons">
+    <button id="yes" onclick="yesClicked()">YES</button>
+    <button id="no">NO</button>
+  </div>
+</div>
+
+<div class="notify" id="notify" onclick="openFinal()">
+  🔔 You have a new notification
+</div>
+
+<script>
+
+/* PARTICLES */
+setInterval(()=>{
+  const p=document.createElement("div");
+  p.className="particle";
+  p.innerText=["💗","✨","💕"][Math.floor(Math.random()*3)];
+  p.style.left=Math.random()*100+"vw";
+  p.style.fontSize=14+Math.random()*22+"px";
+  p.style.animationDuration=6+Math.random()*6+"s";
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(),14000);
+},90);
+
+/* NO DODGE */
+document.getElementById("no").addEventListener("mouseenter",()=>{
+  const dx=(Math.random()>0.5?1:-1)*(140+Math.random()*60);
+  const dy=(Math.random()>0.5?1:-1)*(10+Math.random()*30);
+  document.getElementById("no").style.transform=`translate(${dx}px,${dy}px)`;
+});
+
+/* FLOW */
+const captions=[
+  "9th October 2024, Outing lol",
+  "19th December 2024, remember?",
+  "15th February 2025, Our best picture",
+  "23rd May 2025, the last EY party together",
+  "09th November 2025, me with my fav person at my fav place"
+];
+
+let slide=0;
+
+function yesClicked(){
+  bgMusic.volume=.4;
+  bgMusic.play();
+  app.innerHTML=`
+    <div class="envelope-wrap">
+      <div class="envelope">
+        <div class="env-triangle"></div>
+        <div class="env-rect"></div>
+      </div>
+      <button class="pixel-btn" onclick="openLetter()">OPEN</button>
+    </div>`;
+}
+
+function openLetter(){showSlide();}
+function showSlide(){
+  if(slide<5){
+    app.innerHTML=`
+      <div class="polaroid">
+        <img src="images/${slide+1}.jpeg">
+      </div>
+      <div class="caption">${captions[slide]}</div>
+      <button class="pixel-btn" onclick="nextSlide()">NEXT</button>`;
+  }else{
+    notify.style.display="block";
+    notifSound.play();
+  }
+}
+function nextSlide(){slide++;showSlide();}
+
+function openFinal(){
+  notify.style.display="none";
+  bgMusic.pause();
+  bgMusic.currentTime=0;
+
+  app.innerHTML=`
+    <div class="final">
+      <div class="final-gif-box">
+        <img src="gifs/hasbulla-arrive.gif">
+      </div>
+      <h1>I love you ❤️</h1>
+      <p>See you on 14th February 2026</p>
+    </div>`;
+
+  setTimeout(triggerErrorStorm,3000);
+}
+
+/* ERROR FLOOD */
+function triggerErrorStorm(){
+
+  const overlay=document.createElement("div");
+  overlay.style.position="fixed";
+  overlay.style.inset="0";
+  overlay.style.background="black";
+  overlay.style.zIndex="9999";
+  document.body.appendChild(overlay);
+
+  const rows=8, cols=8;
+
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      setTimeout(()=>{
+        const box=document.createElement("div");
+        box.style.position="absolute";
+        box.style.width="12.5vw";
+        box.style.height="12.5vh";
+        box.style.left=(c*12.5)+"vw";
+        box.style.top=(r*12.5)+"vh";
+        box.style.background="white";
+        box.style.display="flex";
+        box.style.alignItems="center";
+        box.style.justifyContent="center";
+        box.style.fontFamily="'Press Start 2P'";
+        box.style.fontSize="10px";
+        box.innerHTML="❌ ERROR";
+        overlay.appendChild(box);
+
+        const errorSound=new Audio("music/error.mp3");
+        errorSound.volume=.6;
+        errorSound.play();
+
+      },(r*cols+c)*60);
+    }
+  }
+
+  setTimeout(()=>{
+    overlay.remove();
+    showBotScene();
+  },4000);
+}
+
+function showBotScene(){
+  app.innerHTML=`
+  <div style="background:black;height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:white;font-family:'Press Start 2P'">
+    <img src="gifs/bot.png" style="width:320px;margin-bottom:40px;">
+    <div style="background:white;color:black;padding:20px;border:4px solid black;margin-bottom:40px;font-size:12px;">
+      Ayush did not make this, I did.
+    </div>
+    <button onclick="revealAyush()" style="padding:14px 24px;font-family:'Press Start 2P'">Fr?</button>
+  </div>`;
+}
+
+function revealAyush(){
+  const music=document.getElementById("ayushMusic");
+  music.currentTime=0;
+  music.volume=.7;
+  music.play().catch(()=>{});
+
+  app.innerHTML=`
+  <div style="background:black;height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+    <img src="images/ayush.jpeg" style="width:340px;border:6px solid white;border-radius:12px;box-shadow:0 0 60px hotpink;margin-bottom:30px;">
+    <h1 style="color:hotpink;font-family:'Press Start 2P'">I MADE THIS</h1>
+  </div>`;
+}
+</script>
+
+</body>
+</html>
