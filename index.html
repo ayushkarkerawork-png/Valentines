@@ -72,7 +72,6 @@ h1{
   margin-bottom:36px;
 }
 
-/* BUTTONS */
 .buttons{
   display:flex;
   justify-content:center;
@@ -125,7 +124,8 @@ button{
   box-shadow:0 15px 40px rgba(0,0,0,.25);
 }
 .polaroid img{
-  width:100%;height:210px;
+  width:100%;
+  height:210px;
   object-fit:cover;
 }
 .caption{
@@ -156,7 +156,6 @@ button{
   object-fit:contain;
 }
 
-/* NOTIFICATION */
 .notify{
   position:fixed;
   top:20px;right:20px;
@@ -248,11 +247,12 @@ function yesClicked(){
 }
 
 function openLetter(){showSlide();}
+
 function showSlide(){
   if(slide<5){
     app.innerHTML=`
       <div class="polaroid">
-        <img src="./images/${slide+1}.jpeg">
+        <img src="./images/${slide+1}.JPEG">
       </div>
       <div class="caption">${captions[slide]}</div>
       <button class="pixel-btn" onclick="nextSlide()">NEXT</button>`;
@@ -261,6 +261,7 @@ function showSlide(){
     notifSound.play();
   }
 }
+
 function nextSlide(){slide++;showSlide();}
 
 function openFinal(){
@@ -313,7 +314,6 @@ function triggerErrorStorm(){
         const errorSound=new Audio("music/error.mp3");
         errorSound.volume=.6;
         errorSound.play();
-
       },(r*cols+c)*60);
     }
   }
@@ -343,7 +343,7 @@ function revealAyush(){
 
   app.innerHTML=`
   <div style="background:black;height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
-    <img src="./images/ayush.jpeg" style="width:340px;border:6px solid white;border-radius:12px;box-shadow:0 0 60px hotpink;margin-bottom:30px;">
+    <img src="./images/ayush.JPEG" style="width:340px;border:6px solid white;border-radius:12px;box-shadow:0 0 60px hotpink;margin-bottom:30px;">
     <h1 style="color:hotpink;font-family:'Press Start 2P'">I MADE THIS</h1>
   </div>`;
 }
